@@ -1,0 +1,36 @@
+(0x3c091234) LUI $t1 0x1234
+(0x35295678) ORI $t1 $t1 0x5678 // t1=0x12345678
+(0x3c0a0000) LUI $t2 0x0000
+(0x354a0000) ORI $t2 $t2 0x0000 //t2=0x00000000
+(0xad490000) SW $t1 0x0000 $t2   //Store 12345678 in address 00000000  (M[R[rs(t2)]+SignExtImm] = R[rt(t1)])
+(0x31290000) ANDI $t1 $t1 0x0000 //t1=0000
+(0x3c09abcd) LUI $t1 0xABCD 	    //t1=ABCD0000
+(0x3529ef12) ORI $t1 $t1 0xEF12  //t1=ABCDEF12
+(0xad490004) SW $t1 0x0004 $t2   //Store ABCDEF12 in address 00000004
+(0x31290000) ANDI $t1 $t1 0x0000  
+(0x3c091122) LUI $t1 0x1122 
+(0x35293344) ORI $t1 $t1 0x3344  // t1=11223344
+(0xad490008) SW $t1 0x0008 $t2   //Store 11223344 in address 00000008
+(0x11ae0003) BEQ $t5 $t6 0x0003  
+ORI $t7 $t7 0xFFFF  // t7=0xffff (WILL NOT HAPPEN)
+ORI $t0 $t0 0xDAAD  //t0=0xdaad  (WILL NOT HAPPEN)
+ORI $t0 $t0 0xEAAE  //t0=oxfaaf  (WILL NOT HAPPEN)
+(0x8d4b0000) LW $t3 0x0000 $t2   //t3=12345678 //Skips here
+(0x8d4c0004) LW $t4 0x0004 $t2   //t4=ABCDEF12
+(0x8d4c0008) LW $t5 0x0008 $t2    //t5=11223344
+(0x016c7020) ADD $t6 $t3 $t4      //t6=BE02458A   
+(0xad4e000c) SW $t6 0x000C $t2    //Store BE02458A in address 0000000c
+(0x018d4020) ADD $t0 $t4 $t5      //t0=bcf02256
+(0x010c7822) SUB $t7 $t0 $t4      //t7=11223344
+(0x01e84820) ADD $t1 $t7 $t0      //t1=ce12559a
+(0x00005020) ADD $t2 $Zero, $Zero
+(0x014a5820) ADD $t3 $t2 $t2	  //t3=00000000
+(0x354aaa76) ORI $t2 $t2 0xAA76   //t2=0000AA76
+(0x012a4825) OR  $t1 $t1 $t2	  //ce12559a | 0000AA76
+(0x016b5020) ADD $t2 $t3 $t3
+(0x354a0005) ORI $t2 $t2 0x5
+(0x3c0a000a) LUI $t2 0xA
+(0x01405820) ADD $t3 $t2 $Zero  //000A0000 * 000A0000
+(0x014b4018) MUL $t0 $t2 $t3    //$t1: 00000064 $t0: 00000000
+
+
